@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { GlassCard, Input, Button, Title, SubText } from '../../components/GlassCard';
 import { AuthLayout } from './AuthLayout';
 import { authStyles } from './styles';
+import secureMessengerLogo from '../../assets/secure-messenger-logo.png';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -26,24 +27,20 @@ export const LoginPage = () => {
     <AuthLayout>
       <GlassCard>
         <div css={authStyles.formContainer}>
+
           <Title>Connect with your favorite people</Title>
-
-          {/* <div css={authStyles.socialButtons}>
-            <Button
-              onClick={() => console.log('Google login')}
-              style={{ background: '#DB4437' }}
-            >
-              Google
-            </Button>
-            <Button
-              onClick={() => console.log('GitHub login')}
-              style={{ background: '#333' }}
-            >
-              GitHub
-            </Button>
-          </div> */}
-
-          <div css={authStyles.divider}>or continue with email</div>
+          <img
+            src={secureMessengerLogo}
+            alt="Secure Messenger Logo"
+            css={{
+              display: 'block',
+              margin: '0 auto 0 auto',
+              width: '10em',
+              height: '10em',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 2px 16px rgba(0,0,0,0.15))',
+            }}
+          />
 
           <Input
             type="email"

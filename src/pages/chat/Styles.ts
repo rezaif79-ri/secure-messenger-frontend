@@ -1,6 +1,29 @@
 import { css } from '@emotion/react';
 
 export const chatStyles = {
+  chatNavButton: css`
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-size: 24px;
+    &:hover {
+      background: rgba(60,80,180,0.18);
+      box-shadow: 0 2px 8px rgba(60, 80, 180, 0.7);;
+    }
+    &:active {
+      background: rgba(60,80,180,0.28);
+      box-shadow: 0 4px 12px rgba(60,80,180,0.18);
+    }
+  `,
   container: css`
     display: flex;
     height: 100vh;

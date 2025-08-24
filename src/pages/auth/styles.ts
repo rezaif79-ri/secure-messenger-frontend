@@ -16,7 +16,19 @@ export const authStyles = {
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1.5rem;
+    > * {
+      width: 100%;
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
   `,
 
   socialButtons: css`

@@ -167,11 +167,11 @@ export const ContactPage = () => {
                   {c.online ? 'Online' : 'Offline'}
                 </div>
                 <div style={{ display: 'flex', gap: 8, marginLeft: 12 }}>
-                  <button
+                  {/* <button
                     type="button"
                     css={chatStyles.contactActionBtn}
                     onClick={() => setEditContact(c)}
-                  >Edit</button>
+                  >Edit</button> */}
                   <button
                     type="button"
                     css={chatStyles.contactActionBtn}
@@ -184,8 +184,9 @@ export const ContactPage = () => {
         </div>
         {/* Edit Modal */}
         {editContact && (
-          <div css={chatStyles.modalOverlay}>
-            <div css={chatStyles.modalCard}>
+          <>
+            <div css={chatStyles.bottomSheetOverlay} onClick={() => setEditContact(null)} />
+            <div css={chatStyles.bottomSheetModal}>
               <div style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: 12 }}>Edit Contact</div>
               <input
                 type="text"
@@ -196,18 +197,19 @@ export const ContactPage = () => {
               <button css={chatStyles.addContactButton} onClick={() => setEditContact(null)}>Save</button>
               <button css={chatStyles.contactActionBtn} onClick={() => setEditContact(null)} style={{ marginTop: 8 }}>Cancel</button>
             </div>
-          </div>
+          </>
         )}
         {/* Delete Dialog */}
         {deleteContact && (
-          <div css={chatStyles.modalOverlay}>
-            <div css={chatStyles.modalCard}>
+          <>
+            <div css={chatStyles.bottomSheetOverlay} onClick={() => setDeleteContact(null)} />
+            <div css={chatStyles.bottomSheetModal}>
               <div style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: 12 }}>Delete Contact</div>
               <div style={{ marginBottom: 16 }}>Are you sure you want to delete <b>{deleteContact.name}</b>?</div>
               <button css={chatStyles.addContactButton} onClick={() => setDeleteContact(null)}>Delete</button>
               <button css={chatStyles.contactActionBtn} onClick={() => setDeleteContact(null)} style={{ marginTop: 8 }}>Cancel</button>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>

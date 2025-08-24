@@ -1,6 +1,168 @@
 import { css } from '@emotion/react';
 
 export const chatStyles = {
+  bottomSheetModal: css`
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    min-width: 320px;
+    max-width: 98vw;
+    background: rgba(40,44,60,0.97);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -4px 24px rgba(60,80,180,0.18);
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    color: #eaf0fa;
+    z-index: 1100;
+    @media (min-width: 601px) {
+      min-width: 380px;
+      max-width: 420px;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(60,80,180,0.18);
+    }
+  `,
+  bottomSheetOverlay: css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(24,28,36,0.25);
+    backdrop-filter: blur(2px);
+    z-index: 1099;
+  `,
+  settingsContainer: css`
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(24, 28, 36, 0.85);
+    backdrop-filter: blur(12px);
+  `,
+  settingsCard: css`
+    width: 100%;
+    max-width: 520px;
+    min-width: 320px;
+    padding: 32px 28px;
+    border-radius: 24px;
+    background: rgba(40, 44, 60, 0.85);
+    box-shadow: 0 8px 32px rgba(60,80,180,0.18);
+    backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    @media (max-width: 600px) {
+      max-width: 98vw;
+      min-width: 0;
+      padding: 18px 8px;
+      border-radius: 16px;
+      gap: 12px;
+    }
+  `,
+  accordionSection: css`
+    width: 100%;
+    background: rgba(60,80,180,0.10);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.08);
+    margin-bottom: 18px;
+    padding: 0;
+    overflow: hidden;
+  `,
+  accordionHeader: css`
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #eaf0fa;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 18px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover {
+      background: rgba(60,80,180,0.18);
+    }
+  `,
+  accordionContent: css`
+    width: 100%;
+    background: rgba(40,44,60,0.92);
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-radius: 0 0 16px 16px;
+  `,
+  profileRow: css`
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 12px;
+  `,
+  profileAvatar: css`
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+  `,
+  profileLabel: css`
+    font-size: 0.98rem;
+    color: #bfc8db;
+    font-weight: 500;
+    margin-bottom: 2px;
+  `,
+  profileValue: css`
+    font-size: 1.05rem;
+    color: #eaf0fa;
+    font-weight: 600;
+    margin-bottom: 8px;
+  `,
+  profileEditRow: css`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  `,
+  profileInput: css`
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(60,80,180,0.08);
+    color: #eaf0fa;
+    font-size: 1rem;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+    transition: background 0.2s;
+    &:focus {
+      background: rgba(60,80,180,0.18);
+    }
+  `,
+  profileActionBtn: css`
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(60,80,180,0.14);
+    color: #eaf0fa;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+    transition: background 0.2s;
+    &:hover {
+      background: rgba(60,80,180,0.28);
+    }
+  `,
   pendingRequestsSection: css`
     margin-bottom: 24px;
     width: 100%;
@@ -258,8 +420,8 @@ export const chatStyles = {
     margin-top: 6px;
   `,
   chatNavButton: css`
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -288,8 +450,13 @@ export const chatStyles = {
     background: linear-gradient(135deg, #181c24 0%, #23283a 100%);
     font-family: 'Segoe UI', Arial, sans-serif;
     color: #eaf0fa;
+    @media (max-width: 900px) {
+      flex-direction: column;
+      height: 100svh;
+    }
   `,
   sidebar: css`
+    position: relative;
     width: 70px;
     background: rgba(24, 28, 36, 0.85);
     backdrop-filter: blur(12px);
@@ -300,6 +467,20 @@ export const chatStyles = {
     gap: 24px;
     color: #eaf0fa;
     border-right: 1px solid rgba(60,80,180,0.12);
+    @media (max-width: 900px) {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 56px;
+      flex-direction: row;
+      border-right: none;
+      border-bottom: 1px solid rgba(60,80,180,0.12);
+      padding: 0 8px;
+      gap: 16px;
+      justify-content: center;
+      z-index: 100;
+    }
   `,
   contacts: css`
     width: 280px;
@@ -311,6 +492,17 @@ export const chatStyles = {
     flex-direction: column;
     gap: 8px;
     overflow-y: auto;
+    @media (max-width: 900px) {
+      width: 100vw;
+      border-right: none;
+      border-bottom: 1px solid rgba(60,80,180,0.12);
+      padding: 12px 0 0 0;
+      min-height: 80px;
+      max-height: 180px;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 12px;
+    }
   `,
   chat: css`
     flex: 1;
@@ -321,6 +513,10 @@ export const chatStyles = {
     padding: 32px 24px;
     overflow-y: auto;
     color: #eaf0fa;
+    @media (max-width: 900px) {
+      padding: 16px 6px;
+      min-height: 320px;
+    }
   `,
   details: css`
     width: 320px;
@@ -336,6 +532,20 @@ export const chatStyles = {
     transform: translateX(0);
     transition: transform 0.35s cubic-bezier(.4,0,.2,1);
     will-change: transform;
+    @media (max-width: 900px) {
+      position: fixed;
+      top: 56px;
+      right: 0;
+      left: 0;
+      width: 100vw;
+      min-width: 0;
+      height: 100svh;
+      border-left: none;
+      border-top: 1px solid rgba(60,80,180,0.12);
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+      padding: 18px 8px;
+      border-radius: 0 0 24px 24px;
+    }
   `,
   detailsClosed: css`
     width: 320px;
@@ -372,16 +582,24 @@ export const chatStyles = {
     border: 2px solid rgba(60,80,180,0.18);
   `,
   chatBubble: css`
-    background: rgba(255,255,255,0.08);
-    border-radius: 18px;
-    padding: 12px 20px;
-    margin-bottom: 12px;
-    max-width: 60%;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    font-size: 1rem;
-    color: #eaf0fa;
-    align-self: flex-start;
-    backdrop-filter: blur(4px);
+      background: rgba(60,80,180,0.18);
+      color: #eaf0fa;
+      padding: 12px 18px;
+      border-radius: 16px;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+      font-size: 1rem;
+      word-break: break-word;
+      transition: background 0.2s;
+      &:hover {
+        background: rgba(60,80,180,0.28);
+      }
+      @media (max-width: 600px) {
+        max-width: 90%;
+        font-size: 0.95rem;
+        padding: 8px 12px;
+        border-radius: 12px;
+      }
   `,
   chatBubbleMe: css`
     background: rgba(60, 80, 180, 0.7);
@@ -390,20 +608,38 @@ export const chatStyles = {
     backdrop-filter: blur(4px);
   `,
   chatCards: css`
-    display: flex;
-    gap: 24px;
-    margin-top: 24px;
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      @media (max-width: 600px) {
+        gap: 8px;
+        margin-top: 12px;
+        flex-direction: column;
+        align-items: center;
+      }
   `,
   chatCard: css`
-    background: rgba(255,255,255,0.08);
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    width: 220px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    color: #eaf0fa;
-    backdrop-filter: blur(4px);
+      background: rgba(60,80,180,0.10);
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 160px;
+      gap: 8px;
+      transition: background 0.2s;
+      &:hover {
+        background: rgba(60,80,180,0.18);
+      }
+      @media (max-width: 600px) {
+        width: 98vw;
+        max-width: 320px;
+        padding: 10px 6px;
+        border-radius: 10px;
+        gap: 6px;
+      }
   `,
   chatCardImg: css`
     width: 100%;

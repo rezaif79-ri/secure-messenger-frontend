@@ -8,14 +8,18 @@ export const GlassCard = styled.div`
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   border: 1px solid rgba(255, 255, 255, 0.18);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
 `;
 
 export const Input = styled.input`
   width: 100%;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -37,6 +41,9 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   width: 100%;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 12px;
   background: #0084ff;
   border: none;

@@ -1,6 +1,262 @@
 import { css } from '@emotion/react';
 
 export const chatStyles = {
+  pendingRequestsSection: css`
+    margin-bottom: 24px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(60,80,180,0.10);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.08);
+    padding: 18px 16px;
+  `,
+  pendingRequestsTitle: css`
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #eaf0fa;
+    margin-bottom: 8px;
+  `,
+  pendingRequestsList: css`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  `,
+  pendingRequestItem: css`
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(60,80,180,0.08);
+    box-shadow: 0 2px 8px rgba(60,80,180,0.06);
+    transition: background 0.2s;
+    &:hover {
+      background: rgba(60,80,180,0.16);
+    }
+  `,
+  contactActionBtn: css`
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(60,80,180,0.14);
+    color: #eaf0fa;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+    transition: background 0.2s;
+    &:hover {
+      background: rgba(60,80,180,0.28);
+    }
+  `,
+  modalOverlay: css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(24,28,36,0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  `,
+  modalCard: css`
+    min-width: 320px;
+    max-width: 380px;
+    background: rgba(40,44,60,0.95);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(60,80,180,0.18);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    color: #eaf0fa;
+  `,
+  contactListSection: css`
+    margin-top: 32px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  `,
+  contactListTitle: css`
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #eaf0fa;
+    margin-bottom: 8px;
+  `,
+  contactList: css`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-height: 260px;
+    overflow-y: auto;
+  `,
+  contactListItem: css`
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(60,80,180,0.10);
+    box-shadow: 0 2px 8px rgba(60,80,180,0.08);
+    transition: background 0.2s;
+    cursor: pointer;
+    &:hover {
+      background: rgba(60,80,180,0.18);
+    }
+  `,
+  contactListAvatar: css`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+  `,
+  contactListName: css`
+    font-weight: 500;
+    color: #eaf0fa;
+    font-size: 1rem;
+  `,
+  contactListLastMessage: css`
+    font-size: 0.95rem;
+    color: #bfc8db;
+  `,
+  contactListStatus: css`
+    margin-left: auto;
+    font-size: 0.95rem;
+    color: #4ad66d;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 8px;
+    background: rgba(60,180,80,0.10);
+    &.offline {
+      color: #ff6b6b;
+      background: rgba(180,60,60,0.10);
+    }
+  `,
+  addContactHeader: css`
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 18px;
+    width: 100%;
+  `,
+  addContactIcon: css`
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    background: rgba(60,80,180,0.12);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+    color: #eaf0fa;
+  `,
+  addContactHeaderText: css`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  `,
+  addContactHeaderTitle: css`
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #eaf0fa;
+  `,
+  addContactHeaderDesc: css`
+    font-size: 1rem;
+    color: #bfc8db;
+  `,
+  addContactContainer: css`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(24, 28, 36, 0.85);
+    backdrop-filter: blur(12px);
+  `,
+  addContactCard: css`
+    width: 100%;
+    max-width: 520px;
+    min-width: 320px;
+    padding: 32px 28px;
+    border-radius: 24px;
+    background: rgba(40, 44, 60, 0.85);
+    box-shadow: 0 8px 32px rgba(60,80,180,0.18);
+    backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    @media (max-width: 600px) {
+      max-width: 98vw;
+      min-width: 0;
+      padding: 18px 8px;
+      border-radius: 16px;
+      gap: 12px;
+    }
+  `,
+  addContactTitle: css`
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #eaf0fa;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  `,
+  addContactForm: css`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  `,
+  addContactInput: css`
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(60,80,180,0.08);
+    color: #eaf0fa;
+    font-size: 1rem;
+    outline: none;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+    transition: background 0.2s;
+    &:focus {
+      background: rgba(60,80,180,0.18);
+    }
+  `,
+  addContactButton: css`
+    padding: 12px 0;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(90deg, #3a4ad6 0%, #5a6cfb 100%);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(60,80,180,0.10);
+    transition: background 0.2s;
+    &:hover {
+      background: linear-gradient(90deg, #5a6cfb 0%, #3a4ad6 100%);
+    }
+  `,
+  addContactError: css`
+    color: #ff6b6b;
+    font-size: 0.95rem;
+    margin-top: 6px;
+  `,
+  addContactSuccess: css`
+    color: #4ad66d;
+    font-size: 0.95rem;
+    margin-top: 6px;
+  `,
   chatNavButton: css`
     width: 48px;
     height: 48px;

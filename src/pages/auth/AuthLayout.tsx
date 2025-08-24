@@ -12,13 +12,16 @@ export const AuthLayout = ({ children }: AuthLayoutProps) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       style={{
-        minHeight: '100vh',
-        minWidth: '100vw',
+        width: '100vw',
+        height: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '20px',
+        margin: 0,
+        padding: 0,
+        boxSizing: 'border-box',
         background: 'linear-gradient(45deg, #1a1a1a, #4a4a4a)',
+        overflow: 'hidden',
       }}
     >
       {children}

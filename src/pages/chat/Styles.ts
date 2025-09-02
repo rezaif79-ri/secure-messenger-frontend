@@ -496,12 +496,13 @@ export const chatStyles = {
       width: 100vw;
       border-right: none;
       border-bottom: 1px solid rgba(60,80,180,0.12);
-      padding: 12px 0 0 0;
-      min-height: 80px;
-      max-height: 180px;
-      flex-direction: row;
-      overflow-x: auto;
-      gap: 12px;
+      padding: 68px 0 0 0;
+      min-height: 200px;
+      max-height: 300px;
+      flex-direction: column;
+      overflow-x: visible;
+      overflow-y: auto;
+      gap: 4px;
     }
   `,
   chat: css`
@@ -515,7 +516,8 @@ export const chatStyles = {
     color: #eaf0fa;
     @media (max-width: 900px) {
       padding: 16px 6px;
-      min-height: 320px;
+      min-height: calc(100vh - 56px);
+      margin-top: 56px;
     }
   `,
   details: css`
@@ -534,17 +536,35 @@ export const chatStyles = {
     will-change: transform;
     @media (max-width: 900px) {
       position: fixed;
-      top: 56px;
+      top: 0;
       right: 0;
       left: 0;
+      bottom: 0;
       width: 100vw;
       min-width: 0;
-      height: 100svh;
+      height: 100vh;
       border-left: none;
-      border-top: 1px solid rgba(60,80,180,0.12);
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
-      padding: 18px 8px;
-      border-radius: 0 0 24px 24px;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 20px;
+      z-index: 1000;
+      background: rgba(40, 44, 60, 0.95);
+      backdrop-filter: blur(16px);
+    }
+  `,
+  mobileDetailsOverlay: css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(24, 28, 36, 0.8);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: none;
+
+    @media (max-width: 900px) {
+      display: block;
     }
   `,
   detailsClosed: css`

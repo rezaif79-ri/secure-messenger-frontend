@@ -1,104 +1,66 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from 'react';
 import { chatStyles } from './Styles';
-import type { Contact } from './Types';
-
-const contacts: Contact[] = [
-    {
-        id: 1,
-        name: 'Diana Jenkins',
-        avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-        lastMessage: 'Hello!',
-        online: true,
-        info: {
-            whatsapp: '48352674290',
-            group: 'Support',
-        },
-    },
-    {
-        id: 2,
-        name: 'John Smith',
-        avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-        lastMessage: 'See you soon!',
-        online: false,
-        info: {
-            whatsapp: '48352674291',
-            group: 'Sales',
-        },
-    },
-    {
-        id: 3,
-        name: 'Alex Blue',
-        avatar: 'https://randomuser.me/api/portraits/men/65.jpg',
-        lastMessage: 'Thanks!',
-        online: true,
-        info: {
-            whatsapp: '48352674292',
-            group: 'Marketing',
-        },
-    },
-    {
-        id: 4,
-        name: 'Sam Red',
-        avatar: 'https://randomuser.me/api/portraits/men/12.jpg',
-        lastMessage: 'Let me know.',
-        online: false,
-        info: {
-            whatsapp: '48352674293',
-            group: 'Support',
-        },
-    },
-];
-
-const pendingRequests = [
-  {
-    id: 101,
-    name: 'Emily Green',
-    avatar: 'https://randomuser.me/api/portraits/women/55.jpg',
-    email: 'emily.green@example.com',
-  },
-  {
-    id: 102,
-    name: 'Michael Brown',
-    avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
-    email: 'michael.brown@example.com',
-  },
-];
+import { ContactCard, SearchInput, Modal } from '../../components';
+import { useChatContext } from '../../context/ChatContext';
 
 export const ContactPage = () => {
+  const {
+    filteredContacts,
+    contactRequests,
+    searchTerm,
+    setSearchTerm,
+    sendContactRequest,
+    acceptContactRequest,
+    declineContactRequest,
+    deleteContact,
+    toggleFavorite,
+  } = useChatContext();
+
   const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
-  const [search, setSearch] = useState('');
-  const [editContact, setEditContact] = useState<Contact | null>(null);
-  const [deleteContact, setDeleteContact] = useState<Contact | null>(null);
-  const [requests, setRequests] = useState(pendingRequests);
+  const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; contact: any }>({ isOpen: false, contact: null });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!usernameOrEmail.trim()) {
       setError('Please enter a username or email.');
       return;
     }
-    setSubmitted(true);
+
+    setIsLoading(true);
     setError('');
-    // TODO: Add API call to add contact
+
+    try {
+      const result = await sendContactRequest(usernameOrEmail);
+      if (result.success) {
+        setSubmitted(true);
+        setUsernameOrEmail('');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send contact request');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleAccept = (id: number) => {
-    setRequests(requests.filter(r => r.id !== id));
-    // TODO: Add to contacts
-  };
-  const handleDecline = (id: number) => {
-    setRequests(requests.filter(r => r.id !== id));
+  const handleDeleteContact = (contact: any) => {
+    setDeleteModal({ isOpen: true, contact });
   };
 
-  const filteredContacts = contacts.filter(
-    c =>
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.info?.whatsapp?.toLowerCase().includes(search.toLowerCase()) ||
-      c.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const confirmDelete = () => {
+    if (deleteModal.contact) {
+      deleteContact(deleteModal.contact.id);
+      setDeleteModal({ isOpen: false, contact: null });
+    }
+  };
+
+  const handleToggleFavorite = (contactId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(contactId);
+  };
 
   return (
     <div css={chatStyles.addContactContainer}>
@@ -107,9 +69,10 @@ export const ContactPage = () => {
           <div css={chatStyles.addContactIcon}>👤</div>
           <div css={chatStyles.addContactHeaderText}>
             <div css={chatStyles.addContactHeaderTitle}>Contacts</div>
-            <div css={chatStyles.addContactHeaderDesc}>Add a new contact or view your existing contacts.</div>
+            <div css={chatStyles.addContactHeaderDesc}>Add a new contact or manage your existing contacts.</div>
           </div>
         </div>
+
         <form onSubmit={handleSubmit} css={chatStyles.addContactForm}>
           <input
             type="text"
@@ -117,101 +80,140 @@ export const ContactPage = () => {
             value={usernameOrEmail}
             onChange={e => setUsernameOrEmail(e.target.value)}
             css={chatStyles.addContactInput}
+            disabled={isLoading}
           />
-          <button type="submit" css={chatStyles.addContactButton}>Add Contact</button>
+          <button
+            type="submit"
+            css={chatStyles.addContactButton}
+            disabled={isLoading || !usernameOrEmail.trim()}
+          >
+            {isLoading ? 'Sending...' : 'Add Contact'}
+          </button>
         </form>
+
         {error && <div css={chatStyles.addContactError}>{error}</div>}
         {submitted && !error && (
           <div css={chatStyles.addContactSuccess}>Contact request sent!</div>
         )}
+
         {/* Pending Requests Section */}
-        {requests.length > 0 && (
+        {contactRequests.length > 0 && (
           <div css={chatStyles.pendingRequestsSection}>
             <div css={chatStyles.pendingRequestsTitle}>Pending Contact Requests</div>
             <div css={chatStyles.pendingRequestsList}>
-              {requests.map(r => (
-                <div key={r.id} css={chatStyles.pendingRequestItem}>
-                  <img src={r.avatar} alt={r.name} css={chatStyles.contactListAvatar} />
+              {contactRequests.map(request => (
+                <div key={request.id} css={chatStyles.pendingRequestItem}>
+                  <img src={request.avatar} alt={request.name} css={chatStyles.contactListAvatar} />
                   <div>
-                    <div css={chatStyles.contactListName}>{r.name}</div>
-                    <div css={chatStyles.contactListLastMessage}>{r.email}</div>
+                    <div css={chatStyles.contactListName}>{request.name}</div>
+                    <div css={chatStyles.contactListLastMessage}>{request.email}</div>
+                    {request.message && (
+                      <div css={chatStyles.contactListLastMessage} style={{ fontStyle: 'italic', marginTop: 4 }}>
+                        "{request.message}"
+                      </div>
+                    )}
                   </div>
                   <div style={{ display: 'flex', gap: 8, marginLeft: 'auto' }}>
-                    <button css={chatStyles.contactActionBtn} onClick={() => handleAccept(r.id)}>Accept</button>
-                    <button css={chatStyles.contactActionBtn} onClick={() => handleDecline(r.id)}>Decline</button>
+                    <button
+                      css={chatStyles.contactActionBtn}
+                      onClick={() => acceptContactRequest(request.id)}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      css={chatStyles.contactActionBtn}
+                      onClick={() => declineContactRequest(request.id)}
+                    >
+                      Decline
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         )}
+
         <div css={chatStyles.contactListSection}>
-          <div css={chatStyles.contactListTitle}>Your Contacts</div>
-          <input
-            type="text"
+          <div css={chatStyles.contactListTitle}>Your Contacts ({filteredContacts.length})</div>
+
+          <SearchInput
             placeholder="Search contacts..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            css={chatStyles.addContactInput}
-            style={{ marginBottom: 10 }}
+            value={searchTerm}
+            onChange={setSearchTerm}
           />
+
           <div css={chatStyles.contactList}>
-            {filteredContacts.map((c) => (
-              <div key={c.id} css={chatStyles.contactListItem}>
-                <img src={c.avatar} alt={c.name} css={chatStyles.contactListAvatar} />
-                <div>
-                  <div css={chatStyles.contactListName}>{c.name}</div>
-                  <div css={chatStyles.contactListLastMessage}>{c.lastMessage}</div>
-                </div>
-                <div css={chatStyles.contactListStatus}>
-                  {c.online ? 'Online' : 'Offline'}
-                </div>
-                <div style={{ display: 'flex', gap: 8, marginLeft: 12 }}>
-                  {/* <button
-                    type="button"
-                    css={chatStyles.contactActionBtn}
-                    onClick={() => setEditContact(c)}
-                  >Edit</button> */}
-                  <button
-                    type="button"
-                    css={chatStyles.contactActionBtn}
-                    onClick={() => setDeleteContact(c)}
-                  >Delete</button>
-                </div>
-              </div>
+            {filteredContacts.map((contact) => (
+              <ContactCard
+                key={contact.id}
+                contact={contact}
+                showLastSeen
+                actions={
+                  <>
+                    <button
+                      type="button"
+                      css={chatStyles.contactActionBtn}
+                      onClick={(e) => handleToggleFavorite(contact.id, e)}
+                      title={contact.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                    >
+                      {contact.isFavorite ? '★' : '☆'}
+                    </button>
+                    <button
+                      type="button"
+                      css={chatStyles.contactActionBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteContact(contact);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </>
+                }
+              />
             ))}
+
+            {filteredContacts.length === 0 && searchTerm && (
+              <div style={{
+                textAlign: 'center',
+                color: '#bfc8db',
+                padding: '32px 16px',
+                fontStyle: 'italic'
+              }}>
+                No contacts found matching "{searchTerm}"
+              </div>
+            )}
           </div>
         </div>
-        {/* Edit Modal */}
-        {editContact && (
-          <>
-            <div css={chatStyles.bottomSheetOverlay} onClick={() => setEditContact(null)} />
-            <div css={chatStyles.bottomSheetModal}>
-              <div style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: 12 }}>Edit Contact</div>
-              <input
-                type="text"
-                defaultValue={editContact.name}
-                css={chatStyles.addContactInput}
-                style={{ marginBottom: 10 }}
-              />
-              <button css={chatStyles.addContactButton} onClick={() => setEditContact(null)}>Save</button>
-              <button css={chatStyles.contactActionBtn} onClick={() => setEditContact(null)} style={{ marginTop: 8 }}>Cancel</button>
-            </div>
-          </>
-        )}
-        {/* Delete Dialog */}
-        {deleteContact && (
-          <>
-            <div css={chatStyles.bottomSheetOverlay} onClick={() => setDeleteContact(null)} />
-            <div css={chatStyles.bottomSheetModal}>
-              <div style={{ fontWeight: 600, fontSize: '1.1rem', marginBottom: 12 }}>Delete Contact</div>
-              <div style={{ marginBottom: 16 }}>Are you sure you want to delete <b>{deleteContact.name}</b>?</div>
-              <button css={chatStyles.addContactButton} onClick={() => setDeleteContact(null)}>Delete</button>
-              <button css={chatStyles.contactActionBtn} onClick={() => setDeleteContact(null)} style={{ marginTop: 8 }}>Cancel</button>
-            </div>
-          </>
-        )}
+
+        {/* Delete Confirmation Modal */}
+        <Modal
+          isOpen={deleteModal.isOpen}
+          onClose={() => setDeleteModal({ isOpen: false, contact: null })}
+          title="Delete Contact"
+          size="small"
+        >
+          <div style={{ marginBottom: 16 }}>
+            Are you sure you want to delete <strong>{deleteModal.contact?.name}</strong>?
+            This action cannot be undone.
+          </div>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+            <button
+              css={chatStyles.contactActionBtn}
+              onClick={() => setDeleteModal({ isOpen: false, contact: null })}
+            >
+              Cancel
+            </button>
+            <button
+              css={chatStyles.addContactButton}
+              onClick={confirmDelete}
+              style={{ background: 'linear-gradient(90deg, #d63a3a 0%, #fb5a5a 100%)' }}
+            >
+              Delete
+            </button>
+          </div>
+        </Modal>
       </div>
     </div>
   );
-}
+};

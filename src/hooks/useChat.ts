@@ -34,7 +34,7 @@ const initialMessages: ChatMessage[] = [
   },
 ];
 
-export const useChat = (contactId?: number | null) => {
+export const useChat = (contactId?: string | null) => {
   const [messages, setMessages] = useLocalStorage<ChatMessage[]>('secure-messenger-messages', initialMessages);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -46,8 +46,8 @@ export const useChat = (contactId?: number | null) => {
 
     return messages
       .filter(msg =>
-        (msg.from === 'me' && msg.to === contactId.toString()) ||
-        (msg.from === contactId.toString() && msg.to === 'me')
+        (msg.from === 'me' && msg.to === contactId) ||
+        (msg.from === contactId && msg.to === 'me')
       )
       .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
   }, [messages, contactId]);
@@ -59,7 +59,7 @@ export const useChat = (contactId?: number | null) => {
     const message: ChatMessage = {
       id: generateId(),
       from: 'me',
-      to: contactId.toString(),
+      to: contactId,
       text: text.trim(),
       timestamp: new Date(),
       status: 'sending',
@@ -115,9 +115,9 @@ export const useChat = (contactId?: number | null) => {
   }, [contactId, conversationMessages, markAsRead]);
 
   // Get unread count for a contact
-  const getUnreadCount = useCallback((contactIdToCheck: number) => {
+  const getUnreadCount = useCallback((contactIdToCheck: string) => {
     return messages.filter(msg =>
-      msg.from === contactIdToCheck.toString() &&
+      msg.from === contactIdToCheck &&
       msg.to === 'me' &&
       msg.status !== 'read'
     ).length;
@@ -163,10 +163,10 @@ export const useChat = (contactId?: number | null) => {
   }, [messages]);
 
   // Get last message for a contact
-  const getLastMessage = useCallback((contactIdToCheck: number) => {
+  const getLastMessage = useCallback((contactIdToCheck: string) => {
     const contactMessages = messages.filter(msg =>
-      (msg.from === 'me' && msg.to === contactIdToCheck.toString()) ||
-      (msg.from === contactIdToCheck.toString() && msg.to === 'me')
+      (msg.from === 'me' && msg.to === contactIdToCheck) ||
+      (msg.from === contactIdToCheck && msg.to === 'me')
     );
 
     return contactMessages.sort((a, b) =>

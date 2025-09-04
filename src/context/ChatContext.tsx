@@ -36,12 +36,12 @@ interface ChatContextType {
   sendMessage: (text: string, type?: 'text' | 'image' | 'file' | 'audio', fileData?: { url: string; name: string; size: number }) => any;
   markAsRead: (messageIds: string[]) => void;
   markConversationAsRead: () => void;
-  getUnreadCount: (contactId: number) => number;
+  getUnreadCount: (contactId: string) => number;
   deleteMessage: (messageId: string) => void;
   updateMessageTypingStatus: (typing: boolean) => void;
   addTypingUser: (userId: string) => void;
   searchMessages: (query: string) => any[];
-  getLastMessage: (contactId: number) => any;
+  getLastMessage: (contactId: string) => any;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);

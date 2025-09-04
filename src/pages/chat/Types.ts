@@ -1,19 +1,23 @@
 export interface Contact {
-  id: number;
+  id: string;
   name: string;
-  avatar: string;
-  lastMessage: string;
+  avatar?: string;
+  lastMessage?: string;
   lastMessageTime?: Date;
   online: boolean;
   lastSeen?: Date;
   isTyping?: boolean;
   isFavorite?: boolean;
   isBlocked?: boolean;
+  unreadCount?: number;
+  isPinned?: boolean;
+  isArchived?: boolean;
+  isMuted?: boolean;
   info: {
-    whatsapp: string;
-    group: string;
+    phone: string;
+    about?: string;
     email?: string;
-    phone?: string;
+    groups?: string[];
   };
 }
 
@@ -24,48 +28,104 @@ export interface ChatMessage {
   text: string;
   timestamp: Date;
   status: 'sending' | 'sent' | 'delivered' | 'read';
-  type: 'text' | 'image' | 'file' | 'audio';
+  type: 'text' | 'image' | 'file' | 'audio' | 'video' | 'sticker' | 'location' | 'contact';
   fileUrl?: string;
   fileName?: string;
   fileSize?: number;
-  replyTo?: string; // ID of the message being replied to
+  replyTo?: string;
+  reactions?: MessageReaction[];
+  isForwarded?: boolean;
+  isStarred?: boolean;
+  isDeleted?: boolean;
+  editedAt?: Date;
 }
 
-export interface ChatCard {
-  title: string;
-  desc: string;
-  img: string;
-  url?: string;
+export interface MessageReaction {
+  emoji: string;
+  userId: string;
+  timestamp: Date;
+}
+
+export interface Conversation {
+  id: string;
+  contactId: string;
+  messages: ChatMessage[];
+  lastActivity: Date;
+  unreadCount: number;
+  isPinned: boolean;
+  isArchived: boolean;
+  isMuted: boolean;
+  draftMessage?: string;
 }
 
 export interface User {
   id: string;
-  username: string;
-  email: string;
-  displayName: string;
-  avatar: string;
+  name: string;
+  phone: string;
+  email?: string;
+  avatar?: string;
+  about?: string;
   online: boolean;
   lastSeen?: Date;
   preferences: UserPreferences;
 }
 
 export interface UserPreferences {
-  showOnlineStatus: boolean;
-  allowMessagePreview: boolean;
-  soundEnabled: boolean;
-  darkMode: boolean;
-  language: string;
-  autoDownloadMedia: boolean;
+  theme: 'light' | 'dark' | 'auto';
+  notifications: {
+    enabled: boolean;
+    sound: boolean;
+    desktop: boolean;
+    preview: boolean;
+  };
+  privacy: {
+    lastSeen: 'everyone' | 'contacts' | 'nobody';
+    profilePhoto: 'everyone' | 'contacts' | 'nobody';
+    about: 'everyone' | 'contacts' | 'nobody';
+    readReceipts: boolean;
+    groups: 'everyone' | 'contacts';
+  };
+  chat: {
+    enterToSend: boolean;
+    mediaAutoDownload: boolean;
+    fontSize: 'small' | 'medium' | 'large';
+  };
 }
 
 export interface ContactRequest {
-  id: number;
+  id: string;
   name: string;
-  avatar: string;
-  email: string;
-  username?: string;
+  avatar?: string;
+  phone: string;
   message?: string;
   timestamp: Date;
+  status: 'pending' | 'accepted' | 'declined';
+}
+
+export interface ChatState {
+  conversations: Conversation[];
+  selectedConversationId?: string;
+  searchQuery: string;
+  archivedChats: string[];
+  starredMessages: string[];
+}
+
+// Navigation types
+export interface NavigationState {
+  activeSection: 'chats' | 'contacts' | 'settings' | 'archived' | 'starred';
+  showProfile: boolean;
+  showNewChat: boolean;
+  showGroupInfo: boolean;
+}
+
+// UI State types
+export interface UIState {
+  sidebarCollapsed: boolean;
+  showContactInfo: boolean;
+  showEmojiPicker: boolean;
+  showAttachmentMenu: boolean;
+  isTyping: boolean;
+  selectedMessages: string[];
 }
 
 export interface ChatRoom {

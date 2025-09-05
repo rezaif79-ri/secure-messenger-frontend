@@ -14,6 +14,7 @@ import {
   PushPin as PinIcon,
   Check as CheckIcon,
   DoneAll as DoneAllIcon,
+  Close as CloseIcon,
 } from '@mui/icons-material';
 import { whatsappStyles } from './WhatsAppStyles';
 import type { Contact, ChatMessage } from './Types';
@@ -191,11 +192,11 @@ const ContactListItem: React.FC<{
         </div>
       </div>
 
-      {contact.unreadCount && contact.unreadCount > 0 && (
+      {contact.unreadCount && contact.unreadCount >= 1 ? (
         <div css={whatsappStyles.unreadBadge}>
           {contact.unreadCount > 99 ? '99+' : contact.unreadCount}
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
@@ -401,14 +402,55 @@ const ContactInfoPanel: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ contact, isOpen, onClose }) => {
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Handle escape key press
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscapeKey);
+      return () => document.removeEventListener('keydown', handleEscapeKey);
+    }
+  }, [isOpen, onClose]);
+
+  // Handle click outside to close
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node) && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen, onClose]);
+
   if (!contact) return null;
 
   return (
-    <div css={[whatsappStyles.contactInfoPanel, isOpen && 'panel-open']}>
+    <div
+      css={[
+        whatsappStyles.contactInfoPanel,
+        isOpen && whatsappStyles.contactInfoPanelOpen
+      ]}
+      ref={panelRef}
+    >
       <div css={whatsappStyles.contactInfoHeader}>
         <h3>Contact Info</h3>
-        <button css={whatsappStyles.closeButton} onClick={onClose}>
-          ×
+        <button
+          css={whatsappStyles.closeButton}
+          onClick={onClose}
+          title="Close contact info"
+          aria-label="Close contact info"
+        >
+          <CloseIcon sx={{ fontSize: 20 }} />
         </button>
       </div>
 

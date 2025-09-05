@@ -1,88 +1,158 @@
 import { css } from '@emotion/react';
 
-// WhatsApp Desktop-like Glassmorphism Theme
+// Secure Messenger - Modern Blue Glassmorphism Theme
 const colors = {
-  primary: 'rgba(0, 168, 132, 1)', // WhatsApp green
-  primaryAlpha: 'rgba(0, 168, 132, 0.1)',
-  primaryHover: 'rgba(0, 168, 132, 0.8)',
+  primary: 'rgba(59, 130, 246, 1)', // Modern blue
+  primaryAlpha: 'rgba(59, 130, 246, 0.1)',
+  primaryHover: 'rgba(59, 130, 246, 0.8)',
+  primaryLight: 'rgba(96, 165, 250, 1)',
+  primaryDark: 'rgba(37, 99, 235, 1)',
 
-  background: 'rgba(17, 27, 33, 0.95)', // Dark teal background
-  surfaceGlass: 'rgba(32, 44, 51, 0.85)', // Glass surface
-  surfaceHover: 'rgba(45, 55, 62, 0.9)',
+  secondary: 'rgba(139, 92, 246, 1)', // Purple accent
+  secondaryAlpha: 'rgba(139, 92, 246, 0.1)',
 
-  sidebar: 'rgba(42, 58, 65, 0.9)', // Sidebar glass
-  sidebarHover: 'rgba(52, 68, 75, 0.95)',
+  background: 'rgba(15, 23, 42, 0.95)', // Slate dark background
+  surfaceGlass: 'rgba(30, 41, 59, 0.85)', // Glass surface with blue tint
+  surfaceHover: 'rgba(51, 65, 85, 0.9)',
 
-  chatBackground: 'rgba(18, 30, 40, 0.7)', // Chat area background
+  sidebar: 'rgba(30, 41, 59, 0.9)', // Sidebar glass
+  sidebarHover: 'rgba(51, 65, 85, 0.95)',
+
+  chatBackground: 'rgba(15, 23, 42, 0.7)', // Chat area background
 
   text: {
-    primary: '#E9EDEF', // Main text
-    secondary: '#8696A0', // Secondary text
-    tertiary: '#667781', // Muted text
-    accent: '#00A884', // Green accent
+    primary: '#F1F5F9', // Slate white
+    secondary: '#94A3B8', // Slate gray
+    tertiary: '#64748B', // Muted slate
+    accent: '#3B82F6', // Blue accent
     white: '#FFFFFF',
-    light: 'rgba(255, 255, 255, 0.8)',
+    light: 'rgba(255, 255, 255, 0.9)',
+    glow: 'rgba(59, 130, 246, 0.8)',
   },
 
   message: {
-    incoming: 'rgba(42, 58, 65, 0.85)',
-    outgoing: 'rgba(0, 95, 77, 0.85)', // Dark green for sent messages
-    incomingHover: 'rgba(52, 68, 75, 0.9)',
-    outgoingHover: 'rgba(0, 105, 87, 0.9)',
+    incoming: 'rgba(30, 41, 59, 0.9)',
+    outgoing: 'rgba(59, 130, 246, 0.9)', // Blue for sent messages
+    incomingHover: 'rgba(51, 65, 85, 0.95)',
+    outgoingHover: 'rgba(37, 99, 235, 0.95)',
   },
 
   status: {
-    online: '#00D448',
-    away: '#F39C12',
-    offline: '#95A5A6',
-    typing: '#00A884',
+    online: '#10B981', // Emerald
+    away: '#F59E0B', // Amber
+    offline: '#6B7280', // Gray
+    typing: '#3B82F6', // Blue
+    secure: '#059669', // Secure indicator
   },
 
-  border: 'rgba(134, 150, 160, 0.15)',
-  borderHover: 'rgba(134, 150, 160, 0.25)',
+  border: 'rgba(148, 163, 184, 0.15)',
+  borderHover: 'rgba(148, 163, 184, 0.25)',
+  borderGlow: 'rgba(59, 130, 246, 0.3)',
 
   shadow: {
-    sm: '0 1px 3px rgba(0, 0, 0, 0.3)',
-    md: '0 4px 12px rgba(0, 0, 0, 0.25)',
-    lg: '0 8px 32px rgba(0, 0, 0, 0.35)',
-    xl: '0 16px 48px rgba(0, 0, 0, 0.4)',
+    sm: '0 1px 3px rgba(0, 0, 0, 0.4)',
+    md: '0 4px 12px rgba(0, 0, 0, 0.3)',
+    lg: '0 8px 32px rgba(0, 0, 0, 0.4)',
+    xl: '0 16px 48px rgba(0, 0, 0, 0.5)',
+    glow: '0 0 20px rgba(59, 130, 246, 0.3)',
+    blueGlow: '0 0 30px rgba(59, 130, 246, 0.4)',
   }
 };
 
 export const whatsappStyles = {
-  // Main container with WhatsApp desktop layout
+  // Main container with modern blue glassmorphism layout
   container: css`
     display: flex;
     height: 100vh;
     width: 100vw;
     background: linear-gradient(135deg,
-      rgba(17, 27, 33, 0.95) 0%,
-      rgba(42, 58, 65, 0.9) 50%,
-      rgba(32, 44, 51, 0.95) 100%
+      rgba(15, 23, 42, 0.98) 0%,
+      rgba(30, 58, 138, 0.95) 25%,
+      rgba(59, 130, 246, 0.85) 50%,
+      rgba(139, 92, 246, 0.9) 75%,
+      rgba(15, 23, 42, 0.98) 100%
     );
-    backdrop-filter: blur(20px);
-    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    backdrop-filter: blur(24px);
+    font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 25% 75%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 75% 25%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
   `,
 
-  // Left sidebar (contacts list)
+  // Left sidebar (contacts list) with enhanced glassmorphism
   sidebar: css`
-    width: 350px;
-    min-width: 280px;
+    width: 380px;
+    min-width: 320px;
     background: ${colors.sidebar};
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(24px);
     border-right: 1px solid ${colors.border};
     display: flex;
     flex-direction: column;
-    box-shadow: ${colors.shadow.md};
+    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.2);
     position: relative;
     z-index: 10;
+    border-radius: 0 20px 20px 0;
+    margin: 12px 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(145deg,
+        rgba(59, 130, 246, 0.04) 0%,
+        transparent 50%,
+        rgba(139, 92, 246, 0.02) 100%
+      );
+      pointer-events: none;
+      border-radius: 0 20px 20px 0;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -2px;
+      width: 4px;
+      height: 100px;
+      background: linear-gradient(180deg,
+        transparent,
+        rgba(59, 130, 246, 0.5),
+        transparent
+      );
+      border-radius: 2px 0 0 2px;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      transform: translateY(-50%);
+    }
 
     @media (max-width: 768px) {
       width: 100%;
       position: absolute;
       left: -100%;
-      transition: left 0.3s ease;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 100;
+      border-radius: 0;
+      margin: 0;
+
+      &::after {
+        display: none;
+      }
     }
 
     &.mobile-open {
@@ -172,6 +242,8 @@ export const whatsappStyles = {
   searchContainer: css`
     position: relative;
     margin-bottom: 8px;
+    width: 100%;
+    box-sizing: border-box;
   `,
 
   searchInput: css`
@@ -184,6 +256,8 @@ export const whatsappStyles = {
     font-size: 14px;
     outline: none;
     transition: all 0.2s ease;
+    box-sizing: border-box;
+    max-width: 100%;
 
     &::placeholder {
       color: ${colors.text.tertiary};
@@ -363,8 +437,8 @@ export const whatsappStyles = {
 
   unreadBadge: css`
     position: absolute;
-    top: 12px;
-    right: 20px;
+    top: 60%;
+    right: 5%;
     background: ${colors.primary};
     color: white;
     border-radius: 10px;
@@ -375,6 +449,9 @@ export const whatsappStyles = {
     justify-content: center;
     font-size: 12px;
     font-weight: 600;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   `,
 
   pinnedIndicator: css`
@@ -387,45 +464,127 @@ export const whatsappStyles = {
     }
   `,
 
-  // Main chat area
+  // Main chat area with enhanced glassmorphism
   chatArea: css`
     flex: 1;
     display: flex;
     flex-direction: column;
     background: ${colors.chatBackground};
     position: relative;
+    border-radius: 20px 20px 0 0;
+    margin: 12px 12px 0 0;
+    backdrop-filter: blur(24px);
+    overflow: hidden;
+    box-shadow:
+      0 25px 50px rgba(0, 0, 0, 0.25),
+      0 0 40px rgba(59, 130, 246, 0.05);
+    border: 1px solid ${colors.border};
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(145deg,
+        rgba(59, 130, 246, 0.03) 0%,
+        transparent 50%,
+        rgba(139, 92, 246, 0.02) 100%
+      );
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -2px;
+      width: 4px;
+      height: 120px;
+      background: linear-gradient(180deg,
+        transparent,
+        rgba(59, 130, 246, 0.4),
+        transparent
+      );
+      border-radius: 0 2px 2px 0;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      transform: translateY(-50%);
+    }
+
+    @media (max-width: 768px) {
+      margin: 0;
+      border-radius: 0;
+
+      &::after {
+        display: none;
+      }
+    }
   `,
 
-  // Chat header
+  // Chat header with enhanced styling
   chatHeader: css`
     display: flex;
     align-items: center;
-    padding: 16px 20px;
+    padding: 24px 28px;
     background: ${colors.surfaceGlass};
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(24px);
     border-bottom: 1px solid ${colors.border};
     box-shadow: ${colors.shadow.sm};
     z-index: 10;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 28px;
+      right: 28px;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        ${colors.borderGlow},
+        transparent
+      );
+    }
   `,
 
   chatHeaderContent: css`
     display: flex;
     align-items: center;
     flex: 1;
-    gap: 12px;
+    gap: 20px;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      background: rgba(59, 130, 246, 0.08);
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+    }
   `,
 
   chatTitle: css`
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 19px;
+    font-weight: 700;
     color: ${colors.text.primary};
     margin: 0;
+    text-shadow: 0 0 15px rgba(241, 245, 249, 0.2);
+    background: linear-gradient(135deg, ${colors.text.primary}, ${colors.text.secondary});
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   `,
 
   chatSubtitle: css`
-    font-size: 13px;
+    font-size: 14px;
     color: ${colors.text.secondary};
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   `,
 
   typingIndicator: css`
@@ -467,16 +626,30 @@ export const whatsappStyles = {
   messagesContainer: css`
     flex: 1;
     overflow-y: auto;
-    padding: 16px 0;
+    padding: 20px 0;
     background: linear-gradient(135deg,
       ${colors.chatBackground} 0%,
-      rgba(18, 30, 40, 0.5) 100%
+      rgba(15, 23, 42, 0.4) 100%
     );
     scrollbar-width: thin;
-    scrollbar-color: ${colors.border} transparent;
+    scrollbar-color: rgba(59, 130, 246, 0.2) transparent;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.02) 0%, transparent 40%);
+      pointer-events: none;
+    }
 
     &::-webkit-scrollbar {
-      width: 6px;
+      width: 8px;
     }
 
     &::-webkit-scrollbar-track {
@@ -484,8 +657,13 @@ export const whatsappStyles = {
     }
 
     &::-webkit-scrollbar-thumb {
-      background: ${colors.border};
-      border-radius: 3px;
+      background: rgba(59, 130, 246, 0.2);
+      border-radius: 4px;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: rgba(59, 130, 246, 0.3);
+      }
     }
   `,
 
@@ -527,92 +705,167 @@ export const whatsappStyles = {
     backdrop-filter: blur(16px);
     position: relative;
     word-wrap: break-word;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 100%
+      );
+      pointer-events: none;
+      border-radius: inherit;
+    }
 
     &.incoming {
       background: ${colors.message.incoming};
       color: ${colors.text.primary};
-      border-bottom-left-radius: 4px;
+      border-bottom-left-radius: 6px;
+
+      &:hover {
+        transform: translateX(-2px);
+        box-shadow:
+          0 8px 25px rgba(0, 0, 0, 0.15),
+          -4px 0 15px rgba(59, 130, 246, 0.1);
+      }
     }
 
     &.outgoing {
       background: ${colors.message.outgoing};
       color: ${colors.text.white};
-      border-bottom-right-radius: 4px;
+      border-bottom-right-radius: 6px;
       margin-left: auto;
+      box-shadow:
+        0 4px 15px rgba(59, 130, 246, 0.2),
+        0 0 30px rgba(59, 130, 246, 0.05);
+
+      &:hover {
+        transform: translateX(2px);
+        box-shadow:
+          0 8px 25px rgba(59, 130, 246, 0.25),
+          4px 0 15px rgba(59, 130, 246, 0.1);
+      }
     }
   `,
 
   messageText: css`
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 15px;
+    line-height: 1.5;
     margin: 0;
+    position: relative;
+    z-index: 1;
   `,
 
   messageFooter: css`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 4px;
-    margin-top: 4px;
+    gap: 6px;
+    margin-top: 6px;
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    z-index: 1;
   `,
 
   messageTime: css`
     font-size: 11px;
-    opacity: 0.7;
+    opacity: 0.8;
+    font-weight: 500;
   `,
 
   // Message input area
   messageInputContainer: css`
-    padding: 16px 20px;
+    padding: 20px 24px;
     background: ${colors.surfaceGlass};
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(20px);
     border-top: 1px solid ${colors.border};
     display: flex;
     align-items: flex-end;
     gap: 12px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 24px;
+      right: 24px;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent,
+        ${colors.borderGlow},
+        transparent
+      );
+    }
   `,
 
   attachButton: css`
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: none;
-    background: transparent;
+    background: rgba(59, 130, 246, 0.1);
     color: ${colors.text.secondary};
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    flex-shrink: 0;
 
     &:hover {
-      background: ${colors.surfaceHover};
-      color: ${colors.text.primary};
+      background: rgba(59, 130, 246, 0.2);
+      color: #60A5FA;
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+    }
+
+    svg {
+      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.3));
     }
   `,
 
   messageInputWrapper: css`
     flex: 1;
     position: relative;
+    min-width: 0;
+    margin-right: 8px;
   `,
 
   messageInput: css`
     width: 100%;
-    min-height: 40px;
+    min-height: 44px;
     max-height: 120px;
-    padding: 10px 16px;
+    padding: 12px 50px 12px 20px;
     border: none;
-    border-radius: 20px;
+    border-radius: 22px;
     background: ${colors.chatBackground};
     color: ${colors.text.primary};
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 15px;
+    line-height: 1.5;
     resize: none;
     outline: none;
     font-family: inherit;
     overflow-y: auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 
     &::placeholder {
       color: ${colors.text.tertiary};
@@ -620,52 +873,102 @@ export const whatsappStyles = {
 
     &:focus {
       background: ${colors.surfaceHover};
-      box-shadow: 0 0 0 2px ${colors.primaryAlpha};
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.1),
+        0 4px 15px rgba(0, 0, 0, 0.15);
     }
   `,
 
   emojiButton: css`
     position: absolute;
-    right: 12px;
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border: none;
     background: transparent;
     color: ${colors.text.secondary};
     cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
-      color: ${colors.text.primary};
+      color: #60A5FA;
+      background: rgba(59, 130, 246, 0.1);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.2));
     }
   `,
 
   sendButton: css`
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border: none;
-    background: ${colors.primary};
+    background: linear-gradient(135deg, ${colors.primary}, ${colors.primaryDark});
     color: white;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-    box-shadow: ${colors.shadow.sm};
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+      0 4px 15px rgba(59, 130, 246, 0.4),
+      0 0 30px rgba(59, 130, 246, 0.2);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+      );
+      transition: left 0.5s;
+    }
 
     &:hover {
-      background: ${colors.primaryHover};
-      transform: scale(1.05);
+      background: linear-gradient(135deg, ${colors.primaryLight}, ${colors.primary});
+      transform: scale(1.1);
+      box-shadow:
+        0 6px 20px rgba(59, 130, 246, 0.5),
+        0 0 40px rgba(59, 130, 246, 0.3);
+
+      &::before {
+        left: 100%;
+      }
     }
 
     &:disabled {
       background: ${colors.text.tertiary};
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    svg {
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
     }
   `,
 
@@ -710,7 +1013,7 @@ export const whatsappStyles = {
     display: flex;
     flex-direction: column;
     box-shadow: ${colors.shadow.md};
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 
     @media (max-width: 1024px) {
       position: absolute;
@@ -719,12 +1022,24 @@ export const whatsappStyles = {
       height: 100%;
       z-index: 50;
       transform: translateX(100%);
+      visibility: hidden;
+      opacity: 0;
     }
 
-    &.panel-open {
-      @media (max-width: 1024px) {
-        transform: translateX(0);
-      }
+    @media (min-width: 1025px) {
+      display: none;
+    }
+  `,
+
+  contactInfoPanelOpen: css`
+    @media (max-width: 1024px) {
+      transform: translateX(0) !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    @media (min-width: 1025px) {
+      display: flex !important;
     }
   `,
 
@@ -738,10 +1053,10 @@ export const whatsappStyles = {
   `,
 
   closeButton: css`
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border: none;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
     color: ${colors.text.secondary};
     border-radius: 50%;
     cursor: pointer;
@@ -749,10 +1064,18 @@ export const whatsappStyles = {
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
     &:hover {
-      background: ${colors.surfaceHover};
+      background: rgba(255, 255, 255, 0.2);
       color: ${colors.text.primary};
+      transform: scale(1.05);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
   `,
 
